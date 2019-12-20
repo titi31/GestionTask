@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 public class TaskRestController {
     @Autowired
     private TaskRepository taskRepository;
-    @GetMapping("/")
-    public String displayTasks(){
-        return taskRepository.findAll().stream().map(Task::getName).collect(Collectors.joining());
+    @GetMapping(value="/tasks")
+    public List<Task> listTasks(){
+        return taskRepository.findAll();
     }
-    @PostMapping("/addTask/{name}")
-    public void postTask(@PathVariable("name") String name){
-        taskRepository.save(new Task(null,name));
+    @PostMapping(value="/tasks")
+    public Task save(Task t){
+        return taskRepository.save(t);
     }
 }
