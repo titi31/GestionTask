@@ -9,16 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Task implements Serializable {
+public class AppRole {
     @Id
     @GeneratedValue
     private Long id;
-    private String taskName;
+    private String roleName;
 }
