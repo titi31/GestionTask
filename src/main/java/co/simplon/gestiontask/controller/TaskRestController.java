@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 public class TaskRestController {
     @Autowired
     private TaskRepository taskRepository;
-    @GetMapping(value="/tasks")
+    @GetMapping(value="/tasks",produces="application/json")
+    @ResponseBody
     public List<Task> listTasks(){
         return taskRepository.findAll();
     }
-    @PostMapping(value="/tasks")
+    @PostMapping(value="/tasks",produces="application/json")
+    @ResponseBody
     public Task save(@RequestBody Task t){
         return taskRepository.save(t);
     }

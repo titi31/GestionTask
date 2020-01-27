@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,6 +31,7 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
         throws AuthenticationException{
+
         AppUser appUser=null;
 
         try {
@@ -40,6 +42,7 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
         System.out.println("****************************");
         System.out.println("username: "+appUser.getUsername());
         System.out.println("password: "+appUser.getPassword());
+
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 appUser.getUsername(),appUser.getPassword()
         ));
@@ -48,6 +51,7 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain
                                             ,Authentication authResult)
         throws IOException, ServletException {
+
         User springUser =(User) authResult.getPrincipal();
         String jwt= Jwts.builder()
                 .setSubject(springUser.getUsername())
@@ -56,6 +60,7 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
                 .claim("roles",springUser.getAuthorities())
                 .compact();
         response.addHeader(SecurityConstants.HEADER_STRING,SecurityConstants.TOKEN_PREFIX+jwt);
+        System.out.println(jwt+" "+response+" "+springUser);
         super.successfulAuthentication(request,response,chain,authResult);
 
     }
