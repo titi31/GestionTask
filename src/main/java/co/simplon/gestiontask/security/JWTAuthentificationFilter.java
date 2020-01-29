@@ -61,7 +61,7 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
                 .compact();
         response.addHeader(SecurityConstants.HEADER_STRING,SecurityConstants.TOKEN_PREFIX+jwt);
         System.out.println(jwt+" "+response+" "+springUser);
-        super.successfulAuthentication(request,response,chain,authResult);
+        //super.successfulAuthentication(request,response,chain,authResult);
 
     }
 

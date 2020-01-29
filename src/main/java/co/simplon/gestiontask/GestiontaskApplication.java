@@ -31,8 +31,8 @@ public class GestiontaskApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-		accountService.saveUser(new AppUser(null,"admin","1234",null));
-		accountService.saveUser(new AppUser(null,"user","1234",null));
+		accountService.saveUser(new AppUser(null,"admin","YxvbY36U",null));
+		accountService.saveUser(new AppUser(null,"user","33Fz!Jx2019",null));
 		accountService.saveRole(new AppRole(null,"ADMIN"));
 		accountService.saveRole(new AppRole(null,"USER"));
 		accountService.addRoleToUse("admin","ADMIN");
