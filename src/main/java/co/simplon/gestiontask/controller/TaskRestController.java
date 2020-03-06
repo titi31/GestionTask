@@ -6,22 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class TaskRestController {
+public class TaskRestController 
+{
+    
     @Autowired
     private TaskRepository taskRepository;
+    
     @GetMapping(value="/tasks",produces="application/json")
     @ResponseBody
-    public List<Task> listTasks(){
+    public List<Task> listTasks()
+    {
         return taskRepository.findAll();
     }
+    
     @PostMapping(value="/tasks",produces="application/json")
     @ResponseBody
-    public Task save(@RequestBody Task t){
+    public Task save(@RequestBody Task t)
+    {
         return taskRepository.save(t);
     }
+    
 }
