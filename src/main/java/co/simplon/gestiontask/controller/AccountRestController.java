@@ -11,29 +11,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AccountRestController {
+public class AccountRestController 
+{
+    
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private AccountService accountService;
+    
     @PostMapping("/register")
-    public AppUser register(@RequestBody RegisterForm userForm){
+    public AppUser register(@RequestBody RegisterForm userForm)
+    {
         if(!userForm.getPassword().equals(userForm.getRepassword()))
             throw new RuntimeException("You must confirm your password");
 
             AppUser user = accountService.findUserByUsername(userForm.getUsername());
-            if(user!=null) throw new RuntimeException("This user already exists");
+        
+            if(user!=null) throw 
+                new RuntimeException("This user already exists");
+        
             AppUser appUser = new AppUser();
             appUser.setUsername(userForm.getUsername());
             appUser.setPassword(userForm.getPassword());
-
             accountService.saveUser(appUser);
             accountService.addRoleToUse(userForm.getUsername(),"USER");
+        
             return appUser;
-        }
+        
+     }
+    
      @PostMapping("/login")
-    public void login(@RequestBody  AppUser user){
+     public void login(@RequestBody  AppUser user)
+     {
          user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
          userRepository.save(user);
       }
