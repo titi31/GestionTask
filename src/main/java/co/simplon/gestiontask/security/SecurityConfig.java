@@ -19,14 +19,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-
 import javax.sql.DataSource;
 import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter 
+{
+
     @Autowired
     private DataSource datasource;
     @Autowired
@@ -34,52 +35,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       /* auth.inMemoryAuthentication().withUser("user").password("{noop}tortue").roles("USER")
-        .and()
-        .withUser("timothe").password("{noop}laude").roles("ADMIN", "USER");*/
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception 
+    {
+
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // TODO Auto-generated method stub
+    protected void configure(HttpSecurity http) throws Exception 
+    {
 
-
-      /* http
-                .cors().and()
-                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
-
-               // .antMatcher("/**")
-                //.authorizeRequests()
-
-
-               // .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll();
-
-//                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()
-//                .and()
-              //  .oauth2Login();
-               // .successHandler(myAuthenticationSuccessHandler());*/
-
-
-       http/*.cors().and()*/.csrf().disable();
-      //  http.formLogin();
+        http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
-        //http.formLogin();//.loginPage("/login");
-                authorizeRequests().antMatchers(HttpMethod.POST,"/**").permitAll()
-
+        authorizeRequests().antMatchers(HttpMethod.POST,"/**").permitAll()
         .antMatchers("/login/**","/register/**").permitAll().
         antMatchers(HttpMethod.POST,"/tasks/**").hasAuthority("ADMIN")
         .anyRequest().authenticated().and().
         addFilter(new JWTAuthentificationFilter(authenticationManager()))
         .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        
     }
-
-    }
+}
